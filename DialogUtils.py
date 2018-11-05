@@ -1,13 +1,9 @@
 
 import pcbnew
 import wx
-print('ntpath')
 import ntpath
-print('pdb')
 import pdb
-print('ntpath')
 import os
-print('sets')
 from sets import Set
 
 import save_config
