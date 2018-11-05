@@ -27,8 +27,11 @@ Arranges components based upon the hierarchy of the design.
 
 from collections import defaultdict
 from pcbnew import *
+print('before importing')
 import ..kicad_mmccoo/simpledialog/DialogUtils
+print('after importing')
 import wx
+print('after importing wx')
 
 # Extra spacing placed around bounding boxes of modules and groups of modules
 # to provide visual separation.
