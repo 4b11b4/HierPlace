@@ -1,0 +1,3 @@
+[submodule "kicad_mmccoo"]
+	path = kicad_mmccoo
+	url = https://github.com/4b11b4/kicad_mmccoo.git

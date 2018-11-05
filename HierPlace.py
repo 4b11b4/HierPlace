@@ -27,6 +27,8 @@ Arranges components based upon the hierarchy of the design.
 
 from collections import defaultdict
 from pcbnew import *
+import ..kicad_mmccoo/simpledialog/DialogUtils
+import wx
 
 # Extra spacing placed around bounding boxes of modules and groups of modules
 # to provide visual separation.
@@ -319,3 +321,42 @@ class MonkeyPlace(ActionPlugin):
 
 
 MonkeyPlace().register()
+
+class MSTRoutesDialog(DialogUtils.BaseDialog):
+    def __init__(self):
+        super(MSTRoutesDialog, self).__init__("MST Routes dialog")
+
+        self.basic_layer = DialogUtils.BasicLayerPicker(self, layers=['F.Cu', 'B.Cu'])
+        self.AddLabeled(item=self.basic_layer, label="target layer", border=2)
+
+        self.nets = DialogUtils.NetPicker(self, singleton=False)
+        self.AddLabeled(item=self.nets,
+                        label="Target Nets",
+                        proportion=1,
+                        flag=wx.EXPAND|wx.ALL,
+                        border=2)
+
+        self.mods = DialogUtils.ModulePicker(self, singleton=False)
+        self.AddLabeled(item=self.mods,
+                        label="all mods",
+                        proportion=1,
+                        flag=wx.EXPAND|wx.ALL,
+                        border=2)
+
+        # make the dialog a little taller than minimum to give the layer and net
+        # lists a bit more space.
+        self.IncSize(width=50, height=10)
+
+class MSTRoutesPlugin(pcbnew.ActionPlugin):
+    def defaults(self):
+        self.name = "Generate Minimum Spanning Tree route"
+        self.category = "A descriptive category name"
+        self.description = "This plugin computes an MST for selected nets/modules and generates a route from that"
+
+    def Run(self):
+        dlg = MSTRoutesDialog()
+        res = dlg.ShowModal()
+
+        delaunay.GenMSTRoutes(dlg.nets.value, dlg.mods.value, dlg.basic_layer.value)
+
+MSTRoutesPlugin().register()
