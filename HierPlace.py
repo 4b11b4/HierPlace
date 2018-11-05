@@ -25,10 +25,11 @@
 Arranges components based upon the hierarchy of the design.
 """
 
+print('importing')
 from collections import defaultdict
 from pcbnew import *
 print('before importing')
-import ..kicad_mmccoo/simpledialog/DialogUtils
+import DialogUtils
 print('after importing')
 import wx
 print('after importing wx')
@@ -302,7 +303,7 @@ HierPlace().register()
  
 class MonkeyPlace(ActionPlugin):
     def defaults(self):
-        self.name = 'HierPlace'
+        self.name = 'MonkeyPlace'
         self.category = 'Component Placement'
         self.description = 'Places components into clusters based on the hierarchical structure of the design.'
 
@@ -325,9 +326,10 @@ class MonkeyPlace(ActionPlugin):
 
 MonkeyPlace().register()
 
-class MSTRoutesDialog(DialogUtils.BaseDialog):
+
+class TestDialog(DialogUtils.BaseDialog):
     def __init__(self):
-        super(MSTRoutesDialog, self).__init__("MST Routes dialog")
+        super(TestDialog, self).__init__("Test dialog")
 
         self.basic_layer = DialogUtils.BasicLayerPicker(self, layers=['F.Cu', 'B.Cu'])
         self.AddLabeled(item=self.basic_layer, label="target layer", border=2)
@@ -350,16 +352,15 @@ class MSTRoutesDialog(DialogUtils.BaseDialog):
         # lists a bit more space.
         self.IncSize(width=50, height=10)
 
-class MSTRoutesPlugin(pcbnew.ActionPlugin):
+class TestPlugin(ActionPlugin):
     def defaults(self):
-        self.name = "Generate Minimum Spanning Tree route"
+        self.name = "Test"
         self.category = "A descriptive category name"
-        self.description = "This plugin computes an MST for selected nets/modules and generates a route from that"
+        self.description = "Test"
 
     def Run(self):
-        dlg = MSTRoutesDialog()
+        dlg = TestDialog()
         res = dlg.ShowModal()
 
-        delaunay.GenMSTRoutes(dlg.nets.value, dlg.mods.value, dlg.basic_layer.value)
 
-MSTRoutesPlugin().register()
+TestPlugin().register()
