@@ -294,3 +294,28 @@ class HierPlace(ActionPlugin):
 
 
 HierPlace().register()
+ 
+class MonkeyPlace(ActionPlugin):
+    def defaults(self):
+        self.name = 'HierPlace'
+        self.category = 'Component Placement'
+        self.description = 'Places components into clusters based on the hierarchical structure of the design.'
+
+    def Run(self):
+        # Get all the modules from the current PCB and store them as Modules.
+        modules = [Module(m) for m in GetBoard().GetModules()]
+
+        # Get modules in the PCB that are selected.
+        # If no modules are selected, then operate on all the modules in the PCB.
+        selected_modules = [m for m in modules if m.selected] or modules
+
+        # Place the modules into groups based on hierarchy.
+        groups = group_modules(selected_modules)
+
+        print(groups)
+
+        # Display the hierarchically-placed modules.
+        Refresh()
+
+
+MonkeyPlace().register()
