@@ -304,6 +304,7 @@ class MonkeyPlace(ActionPlugin):
         self.description = 'Places components into clusters based on the hierarchical structure of the design.'
 
     def Run(self):
+        print('MonkeyPlace start')
         # Get all the modules from the current PCB and store them as Modules.
         modules = [Module(m) for m in GetBoard().GetModules()]
 
@@ -315,6 +316,11 @@ class MonkeyPlace(ActionPlugin):
         groups = group_modules(selected_modules)
 
         print(groups)
+
+        for path in groups:
+          print('key: {}'.format(path))
+          for module in groups[path]:
+            print('module: {} @ {}'.format(module.ref, module.center))
 
         # Display the hierarchically-placed modules.
         Refresh()
