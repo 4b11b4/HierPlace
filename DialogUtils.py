@@ -297,7 +297,6 @@ class AllLayerPicker(ScrolledPicker):
             self.AddSelector(layername)
 
 
-
 class ModulePicker(ScrolledPicker):
     def __init__(self, parent, singleton=True):
         ScrolledPicker.__init__(self, parent, singleton=singleton, cols=4)
@@ -334,6 +333,7 @@ class NetPicker(ScrolledPicker):
             retval.append(nbn[net])
 
         return retval
+
 
 class FootprintDialog(BaseDialog):
     def __init__(self):
